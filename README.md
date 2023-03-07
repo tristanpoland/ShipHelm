@@ -31,11 +31,13 @@ container = client.containers.run(
     image='nginx',
     ports={'80/tcp': 8181},
     detach=True
-)```
+)
+```
 
 Here's an example of how to use Shiphelm to get a list of all running containers:
 
-```import shiphelm
+```
+import shiphelm
 
 client = shiphelm.Client()
 
