@@ -17,8 +17,8 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='shiphelm',
-    version='0.2.1',
+    name='ShipHelm',
+    version='0.4.7',
     author='Gameplex Software',
     author_email='info@gameplexsoftware.com',
     description='A Python library built for the SkiffUI project used for interacting with Docker containers more easily',

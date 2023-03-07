@@ -1,3 +1,5 @@
+LICENSE
+README.md
 setup.py
 shiphelm.egg-info/PKG-INFO
 shiphelm.egg-info/SOURCES.txt

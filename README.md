@@ -18,68 +18,52 @@ You can install Shiphelm using pip:
 
 ```pip install shiphelm```
 
-## Usage
-
-Here's an example of how to use Shiphelm to start an Nginx container on port 8181:
-
-```python
-import shiphelm
-
-client = shiphelm.Client()
-
-container = client.containers.run(
-    image='nginx',
-    ports={'80/tcp': 8181},
-    detach=True
-)
-```
-
-# Usage
+# Docker Usage
 
 To use the SkiffUI library, you must first install the Docker SDK for Python:
 
 `pip install docker` 
 
-Once you have installed the Docker SDK, you can import the SkiffUI library and create a new instance of the `Client` class:
+Once you have installed the Docker SDK, you can import the SkiffUI library and create a new instance of the `docker` class:
 
-`from shiphelm import Client
+`from shiphelm import docker
 
-client = Client()` 
+docker = docker()` 
 
 ### Get a List of Running Containers
 
-`running_containers = client.get_running_containers()` 
+`running_containers = docker.get_running_containers()` 
 
 ### Get Stats and Ports for a Container by ID
 
-`container_stats = client.get_container_stats(container_id)
-container_ports = client.get_container_ports(container_id)` 
+`container_stats = docker.get_container_stats(container_id)
+container_ports = docker.get_container_ports(container_id)` 
 
 ### Search for Containers by Name
 
-`containers_by_name = client.search_containers(name)` 
+`containers_by_name = docker.search_containers(name)` 
 
 ### Change the Ports of a Container
 
-`client.change_container_ports(container_id, ports)` 
+`docker.change_container_ports(container_id, ports)` 
 
 ### Rename a Container
 
-`client.rename_container(container_id, new_name)` 
+`docker.rename_container(container_id, new_name)` 
 
 ### Add and Remove Containers from Networks
 
-`client.add_container_to_network(container_id, network_name)
-client.remove_container_from_network(container_id, network_name)` 
+`docker.add_container_to_network(container_id, network_name)
+docker.remove_container_from_network(container_id, network_name)` 
 
 ### Create and Delete Networks
 
-`client.create_network(network_name)
-client.delete_network(network_name)` 
+`docker.create_network(network_name)
+docker.delete_network(network_name)` 
 
 ### Run a New Container
 
-`container = client.run_container(
+`container = docker.run_container(
     image=image,
     command=command,
     detach=detach,
@@ -90,15 +74,15 @@ client.delete_network(network_name)`
 
 ### Get and Set Environment Variables for a Container
 
-`container_environment = client.get_container_environment(container_id)
-client.set_container_environment(container_id, environment)` 
+`container_environment = docker.get_container_environment(container_id)
+docker.set_container_environment(container_id, environment)` 
 
 ### Get and Set Volumes for a Container
 
 pythonCopy code
 
-`container_volumes = client.get_container_volumes(container_id)
-client.set_container_volumes(container_id, volumes)` 
+`container_volumes = docker.get_container_volumes(container_id)
+docker.set_container_volumes(container_id, volumes)` 
 
 # Contributing
 

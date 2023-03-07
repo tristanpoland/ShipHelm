@@ -1,7 +1,8 @@
 Metadata-Version: 2.1
 Name: shiphelm
-Version: 0.2.1
+Version: 0.4.7
 Summary: A Python library built for the SkiffUI project used for interacting with Docker containers more easily
 Home-page: https://github.com/gameplex-software/shiphelm
 Author: Gameplex Software
 Author-email: info@gameplexsoftware.com
+License-File: LICENSE
