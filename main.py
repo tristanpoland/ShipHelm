@@ -15,7 +15,7 @@
 # ----------------------------------------------------------------------------
 import docker
 
-class docker:
+class helmdocker:
     def __init__(self):
         self.client = docker.from_env()
 

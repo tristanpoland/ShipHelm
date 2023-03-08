@@ -18,11 +18,15 @@ from setuptools import setup, find_packages
 
 setup(
     name='ShipHelm',
-    version='0.4.7',
+    version='0.4.8-Hotfix',
     author='Gameplex Software',
     author_email='info@gameplexsoftware.com',
     description='A Python library built for the SkiffUI project used for interacting with Docker containers more easily',
     url='https://github.com/gameplex-software/shiphelm',
     packages=find_packages(),
     install_requires=['docker'],
+    # include the main.py file in the package
+    package_data={
+        '': ['main.py'],
+    },
 )

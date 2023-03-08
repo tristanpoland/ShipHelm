@@ -1,8 +1,10 @@
 LICENSE
+MANIFEST.in
 README.md
+main.py
 setup.py
-shiphelm.egg-info/PKG-INFO
-shiphelm.egg-info/SOURCES.txt
-shiphelm.egg-info/dependency_links.txt
-shiphelm.egg-info/requires.txt
-shiphelm.egg-info/top_level.txt
+ShipHelm.egg-info/PKG-INFO
+ShipHelm.egg-info/SOURCES.txt
+ShipHelm.egg-info/dependency_links.txt
+ShipHelm.egg-info/requires.txt
+ShipHelm.egg-info/top_level.txt
