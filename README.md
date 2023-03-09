@@ -118,7 +118,7 @@ while w<3:
     hd.run_container(image="docker/getting-started", detach=1)
     w=w+1
 
-print("Your server is up and ready of connection!")
+print("Your server is up and ready for connection!")
 ```
 
 
