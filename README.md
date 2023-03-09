@@ -20,6 +20,7 @@ You can install Shiphelm using pip:
 pip install shiphelm
 ```
 PyPI: [https://pypi.org/project/Shiphelm/]()
+GitHub Releases [https://github.com/Gameplex-Software/ShipHelm/releases]()
 
 # Docker usage
 
