@@ -17,7 +17,7 @@ Shiphelm is a Python library for interacting with Docker containers more easily.
 You can install Shiphelm using pip:
 
 ```
-pip install .\shiphelm
+pip install shiphelm
 ```
 
 # Docker usage
