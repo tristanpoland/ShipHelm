@@ -19,6 +19,7 @@ You can install Shiphelm using pip:
 ```
 pip install shiphelm
 ```
+PyPI: [https://pypi.org/project/Shiphelm/]()
 
 # Docker usage
 
