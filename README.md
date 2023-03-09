@@ -98,12 +98,29 @@ hd.set_container_environment(container_id, environment)
 
 ### Get and Set Volumes for a Container
 
-pythonCopy code
-
 ```
 container_volumes = hd.get_container_volumes(container_id)
 hd.set_container_volumes(container_id, volumes)
-``` 
+```
+### Example code
+This example runs 4 instances of the Docker "Getting Started" container
+
+```
+from shiphelm.helmdocker import helmdocker
+
+hd = helmdocker() # create an instance of helmdocker
+container_list = hd.get_running_containers() # call the method on the instance
+print(container_list)
+w=0
+
+print("Preparing new server...")
+while w<3:
+    hd.run_container(image="docker/getting-started", detach=1)
+    w=w+1
+
+print("Your server is up and ready of connection!")
+```
+
 
 # Contributing
 
