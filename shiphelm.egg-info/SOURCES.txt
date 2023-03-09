@@ -1,10 +1,11 @@
 LICENSE
 MANIFEST.in
 README.md
-main.py
 setup.py
 ShipHelm.egg-info/PKG-INFO
 ShipHelm.egg-info/SOURCES.txt
 ShipHelm.egg-info/dependency_links.txt
 ShipHelm.egg-info/requires.txt
 ShipHelm.egg-info/top_level.txt
+src/__init__.py
+src/main.py

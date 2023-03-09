@@ -1,32 +1,37 @@
-# ----------------------------------------------------------------------------
-# SkiffUI Copyright 2020-2023 by Gameplex Software and contributors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-# http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-# ----------------------------------------------------------------------------
+import setuptools
 
-from setuptools import setup, find_packages
+with open('README.md', 'r', encoding='utf-8') as fh:
+    long_description = fh.read()
 
-setup(
-    name='ShipHelm',
-    version='0.4.8-Hotfix',
+setuptools.setup(
+    name='Shiphelm',
     author='Gameplex Software',
     author_email='info@gameplexsoftware.com',
-    description='A Python library built for the SkiffUI project used for interacting with Docker containers more easily',
+    description='Docker and kubernetes integration library',
+    keywords='SkiffUI, pypi, package',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     url='https://github.com/gameplex-software/shiphelm',
-    packages=find_packages(),
+    package_dir={'': 'src'},
+    packages=setuptools.find_packages(where='src'),
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+
+        'Intended Audience :: Developers',
+        'Topic :: Software Development :: Build Tools',
+
+        'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+        'Programming Language :: Python :: 3.9',
+        'Programming Language :: Python :: 3 :: Only',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+    ],
+    python_requires='>=3.8',
     install_requires=['docker'],
-    # include the main.py file in the package
-    package_data={
-        '': ['main.py'],
+    extras_require={
+        'dev': ['check-manifest'],
     },
 )
