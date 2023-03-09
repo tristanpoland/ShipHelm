@@ -31,7 +31,7 @@ hd = helmdocker() # create an instance of helmdocker
 ### Get a List of Running Containers
 
 ```
-running_containers = docker.get_running_containers()
+running_containers = hd.get_running_containers()
 ``` 
 
 ### Get Stats and Ports for a Container by ID
