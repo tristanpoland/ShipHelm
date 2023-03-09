@@ -16,7 +16,7 @@ Shiphelm is a Python library for interacting with Docker containers more easily.
 
 You can install Shiphelm using pip:
 
-```pip install shiphelm```
+```pip install .\shiphelm```
 
 # Docker Usage
 
@@ -26,9 +26,9 @@ To use the SkiffUI library, you must first install the Docker SDK for Python:
 
 Once you have installed the Docker SDK, you can import the SkiffUI library and create a new instance of the `docker` class:
 
-`from shiphelm.helmdocker import helmdocker
+```from shiphelm.helmdocker import helmdocker
 
-hd = helmdocker() # create an instance of helmdocker` 
+hd = helmdocker() # create an instance of helmdocker```
 
 ### Get a List of Running Containers
 
@@ -36,8 +36,8 @@ hd = helmdocker() # create an instance of helmdocker`
 
 ### Get Stats and Ports for a Container by ID
 
-`container_stats = hd.get_container_stats(container_id)
-container_ports = hd.get_container_ports(container_id)` 
+```container_stats = hd.get_container_stats(container_id)
+container_ports = hd.get_container_ports(container_id)```
 
 ### Search for Containers by Name
 
