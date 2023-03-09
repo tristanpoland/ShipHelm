@@ -23,7 +23,7 @@ PyPI: [https://pypi.org/project/Shiphelm/]()
 
 GitHub Releases [https://github.com/Gameplex-Software/ShipHelm/releases]()
 
-# Docker usage
+## Docker usage
 
 ```
 from shiphelm.helmdocker import helmdocker
