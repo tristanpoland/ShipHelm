@@ -25,10 +25,19 @@ GitHub Releases [https://github.com/Gameplex-Software/ShipHelm/releases]()
 
 ## Docker usage
 
+This code will allow you to manage the local docker daemon
+
 ```
 from shiphelm.helmdocker import helmdocker
 
 hd = helmdocker() # create an instance of helmdocker
+```
+
+This code will allow you to manage any remote docker daemon
+```
+from shiphelm.helmdocker import helmdocker
+
+hd = helmdocker('tcp://remote-docker-host:2375') # create an instance of helmdocker for romote management
 ```
 
 ### Get a List of Running Containers

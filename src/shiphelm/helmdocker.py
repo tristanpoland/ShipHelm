@@ -16,8 +16,11 @@
 import docker
 
 class helmdocker:
-    def __init__(self):
-        self.client = docker.from_env()
+    def __init__(self, docker_host=None):
+        if docker_host:
+            self.client = docker.DockerClient(base_url=docker_host)
+        else:
+            self.client = docker.from_env()
 
     def get_running_containers(self):
         return self.client.containers.list()
