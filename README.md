@@ -4,13 +4,15 @@
 
 # Shiphelm
 
-Shiphelm is a Python library for interacting with Docker containers more easily. With Shiphelm, you can:
+Shiphelm is a Python library for interacting with containers more easily. With Shiphelm, you can:
 
 - Get a list of all running containers
 - Get usage statistics and used ports for a given container by ID
 - Search containers by name or ID
 - Change the open ports of a container
 - Run new containers
+- Work with Docker, Kubernetes
+- Use Kubernetes clusters and Docker Swarm
 
 ## Installation
 
