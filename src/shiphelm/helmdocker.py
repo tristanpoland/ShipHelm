@@ -15,57 +15,81 @@
 # ----------------------------------------------------------------------------
 import docker
 
-class helmdocker:
-    def __init__(self, docker_host=None):
-        if docker_host:
-            self.client = docker.DockerClient(base_url=docker_host)
-        else:
-            self.client = docker.from_env()
 
-    def get_running_containers(self):
-        return self.client.containers.list()
 
-    def get_container_stats(self, container_id):
-        container = self.client.containers.get(container_id)
+class docker:
+    def __init__(self, remote_address, remote_is_TLS):
+      try:
+         self.client = docker.from_env()
+      except:
+         client = docker.from_env(base_url=remote_address, tls=remote_is_TLS)
+
+    @staticmethod
+    def get_running_containers():
+        client = docker.from_env()
+        return client.containers.list()
+
+    @staticmethod
+    def get_container_stats(container_id):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         stats = container.stats(stream=False)
         return stats
 
-    def get_container_ports(self, container_id):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def get_container_ports(container_id):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         ports = container.attrs['NetworkSettings']['Ports']
         return ports
 
-    def search_containers(self, name):
-        return self.client.containers.list(filters={"name":name})
+    @staticmethod
+    def search_containers(name):
+        client = docker.from_env()
+        return client.containers.list(filters={"name": name})
 
-    def change_container_ports(self, container_id, ports):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def change_container_ports(container_id, ports):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         container.reload()
         container.ports.update(ports)
 
-    def rename_container(self, container_id, new_name):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def rename_container(container_id, new_name):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         container.rename(new_name)
 
-    def add_container_to_network(self, container_id, network_name):
-        network = self.client.networks.get(network_name)
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def add_container_to_network(container_id, network_name):
+        client = docker.from_env()
+        network = client.networks.get(network_name)
+        container = client.containers.get(container_id)
         network.connect(container)
 
-    def remove_container_from_network(self, container_id, network_name):
-        network = self.client.networks.get(network_name)
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def remove_container_from_network(container_id, network_name):
+        client = docker.from_env()
+        network = client.networks.get(network_name)
+        container = client.containers.get(container_id)
         network.disconnect(container)
 
-    def create_network(self, network_name):
-        self.client.networks.create(network_name)
+    @staticmethod
+    def create_network(network_name):
+        client = docker.from_env()
+        client.networks.create(network_name)
 
-    def delete_network(self, network_name):
-        network = self.client.networks.get(network_name)
+    @staticmethod
+    def delete_network(network_name):
+        client = docker.from_env()
+        network = client.networks.get(network_name)
         network.remove()
 
-    def run_container(self, image, command=None, detach=False, ports=None, environment=None, volumes=None):
-        container = self.client.containers.run(
+    @staticmethod
+    def run_container(image, command=None, detach=False, ports=None, environment=None, volumes=None):
+        client = docker.from_env()
+        container = client.containers.run(
             image=image,
             command=command,
             detach=detach,
@@ -75,22 +99,30 @@ class helmdocker:
         )
         return container
 
-    def get_container_environment(self, container_id):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def get_container_environment(container_id):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         environment = container.attrs['Config']['Env']
         return environment
 
-    def set_container_environment(self, container_id, environment):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def set_container_environment(container_id, environment):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         container.reload()
         container.update(env=environment)
 
-    def get_container_volumes(self, container_id):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def get_container_volumes(container_id):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         volumes = container.attrs['HostConfig']['Binds']
         return volumes
 
-    def set_container_volumes(self, container_id, volumes):
-        container = self.client.containers.get(container_id)
+    @staticmethod
+    def set_container_volumes(container_id, volumes):
+        client = docker.from_env()
+        container = client.containers.get(container_id)
         container.reload()
         container.update(binds=volumes)
