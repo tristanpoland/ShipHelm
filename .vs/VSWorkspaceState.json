@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\dist"
   ],
-  "SelectedNode": "\\main.py",
+  "SelectedNode": "\\setup.py",
   "PreviewInSolutionExplorer": false
 }
