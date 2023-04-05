@@ -14,8 +14,12 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
+try:
+    from . import helmdocker, helmkube
+except:
+    print("Error: Shiphelm cannot be run from source!")
+    exit()
 from kubernetes import client
-from . import helmdocker, helmkube
 from typing import TYPE_CHECKING
 import docker
 
@@ -39,13 +43,10 @@ class helm:
         helm.engine = None
         try:
             v1 = kubeclient.CoreV1Api()
-            print("Found Kubernetes engine on local system using Kubernetes container engine")
             helm.engine = "kubernetes"
-            v1.list_pod_for_all_namespaces()
+            v1.list_pod_for_all_namespaces(watch = False)
+            print("Found Kubernetes engine on local system using Kubernetes container engine")
         except:
-            pass
-
-        if not helm.engine:
             try:
                 docker.from_env()
                 print("Found Docker engine on local system using Kubernetes container engine")
