@@ -1,5 +1,9 @@
-from shiphelm.helm import engine
+from shiphelm import helm
 
-engine = engine.__init__()
-engine.set_engine_manual("docker")
-print(engine.get_running_containers())
+helm = helm.helm
+
+helm.set_engine_auto()
+#helm.set_engine_manual("docker")
+helm.get_helm_client()
+print(helm.get_running_containers())
+print(helm.get_running_containers())
