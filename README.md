@@ -277,9 +277,9 @@ hd = helm.helm() # create an instance of helm
 helm.set_engine_auto()
 ```
 
-## Remote engines
+## Remote engines via GUI
 
-To use remote engines you can use the following code to open a GUI configuration wizard:
+To use remote engines you can use the following the examples above to connect programatically or use the below code to open a GUI configuration wizard:
 
 ```
 from shiphelm.helm import helm
