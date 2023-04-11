@@ -8,10 +8,10 @@ setuptools.setup(
     author='Gameplex Software',
     author_email='info@gameplexsoftware.com',
     description='Docker and kubernetes integration library',
-    keywords='SkiffUI, pypi, package',
+    keywords='SkiffUI, kubernetes, docker',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    url='https://github.com/gameplex-software/shiphelm',
+    url='https://gameplex-software.github.io/ShipHelm/',
     package_dir={'': 'src'},
     packages=setuptools.find_packages(where='src'),
     classifiers=[
@@ -27,7 +27,7 @@ setuptools.setup(
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
-    python_requires='>=3.8',
+    python_requires='>=3.7',
     install_requires=['docker'],
     extras_require={
         'dev': ['check-manifest'],
