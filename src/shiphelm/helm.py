@@ -14,14 +14,12 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-try:
-    from . import helmdocker, helmkube
-except:
-    print("Error: Shiphelm cannot be run from source!")
-    exit()
+import helmdocker, helmkube
 from kubernetes import client
 from typing import TYPE_CHECKING
 import docker
+import tkinter as tk
+from tkinter import ttk
 
 #Fix name conflict between docker nad kubernetes client
 kubeclient = client
@@ -35,7 +33,7 @@ if TYPE_CHECKING:
     from helmkube import *
 
 class helm:
-    def __init__():
+    def __init__(self, engine=None):
         helm.engine = helm.set_engine_auto()
         helm.get_helm_client()
 
@@ -43,22 +41,24 @@ class helm:
         helm.engine = None
         try:
             v1 = kubeclient.CoreV1Api()
+            api = v1.CoreV1Api()
             helm.engine = "kubernetes"
-            v1.list_pod_for_all_namespaces(watch = False)
+            namespaces = api.list_namespace().items
             print("Found Kubernetes engine on local system using Kubernetes container engine")
         except:
+            pass
+        if not helm.engine:
             try:
                 docker.from_env()
-                print("Found Docker engine on local system using Kubernetes container engine")
+                print("Found Docker engine on local system using Docker container engine")
                 helm.engine = "docker"
             except:
-                pass
-
-        if not helm.engine:
-            print("[Error] Could not locate kubernetes or docker locally, this could be due to the current user permissions or an incompatible engine.")
+                print("[Debug] No compatible engine found, prompting for remote connection")
+                helm.remote_popup()
+                print("Popup got engine data:", helm.engineAddress, helm.engineType)
 
         return helm.engine
-
+    
     def set_engine_manual(engine_select):
         helm.engine = None
         if engine_select == "docker":
@@ -78,9 +78,35 @@ class helm:
 
         return helm.engine
     
+    def remote_popup():
+        # Create a popup window
+        window = tk.Tk()
+        window.title("Remote Address")
+
+        # Create a label and text input field for the remote address
+        tk.Label(window, text="Remote Address:").grid(row=0, column=0)
+        remote_address = tk.Entry(window)
+        remote_address.grid(row=0, column=1)
+
+        # Create a label and dropdown menu for the options
+        tk.Label(window, text="Options:").grid(row=1, column=0)
+        options = ttk.Combobox(window, values=["Option 1", "Option 2", "Option 3"])
+        options.current(0)
+        options.grid(row=1, column=1)
+
+        # Add a button to submit the inputs
+        submit_button = tk.Button(window, text="Submit")
+        submit_button.grid(row=2, column=1)
+
+        # Return values
+        helm.engineAddress = remote_address
+        helm.engineType = options.get()
+
+        # Start the event loop
+        window.mainloop()
+
     def add_methods(cls):
         methods = [m for m in dir(cls) if not m.startswith("__") and callable(getattr(cls, m))]
-        print(methods)
 
         for method in methods:
             setattr(helm, method, getattr(cls, method))

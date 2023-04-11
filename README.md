@@ -13,7 +13,7 @@ Shiphelm is a Python library for interacting with containers more easily. With S
 - Search containers by name or ID
 - Change the open ports of a container
 - Run new containers
-- Work with Docker, Kubernetes
+- Work with Docker, Docker-Swarm, and Kubernetes
 - Use Kubernetes clusters and Docker Swarm
 
 ## Installation
@@ -29,19 +29,19 @@ GitHub Releases [https://github.com/Gameplex-Software/ShipHelm/releases]()
 
 ## Docker usage
 
-This code will allow you to manage the local docker daemon
+This code will allow you to manage the local container engine
 
 ```
-from shiphelm.helmdocker import helmdocker
+from shiphelm.helm import helm
 
-hd = helmdocker() # create an instance of helmdocker
+hd = helm.helm() # create an instance of helm
 ```
 
-This code will allow you to manage any remote docker daemon
+This code will allow you to manage any compatible remote container engine
 ```
-from shiphelm.helmdocker import helmdocker
+from shiphelm.helm import helm
 
-hd = helmdocker('tcp://remote-docker-host:2375') # create an instance of helmdocker for romote management
+hd = helm.reomte_connect('tcp://remote-docker-host:2375') # create an instance of helmdocker for romote management
 ```
 
 ### Get a List of Running Containers
