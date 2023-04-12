@@ -37,6 +37,7 @@ class helm:
         helm.engine = helm.set_engine_auto()
         helm.get_helm_client()
 
+    @staticmethod
     def set_engine_auto():
         helm.engine = None
         try:
@@ -60,7 +61,8 @@ class helm:
 
         return helm.engine
     
-    def set_engine_manual(engine_select, remoteAddress=None, remoteSecurity=""):
+    @staticmethod
+    def set_engine_manual(engine_select='docker', remoteAddress=None, remoteSecurity=""):
         helm.engine = None
         if engine_select == "docker":
             try:
@@ -85,7 +87,8 @@ class helm:
             print("Invalid engine", engine_select, ". Supported options are 'docker' or 'kubernetes'")
 
         return helm.engine
-    
+
+    @staticmethod
     def remote_popup():
         # Create a popup window
         window = tk.Tk()

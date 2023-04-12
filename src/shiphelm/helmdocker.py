@@ -16,7 +16,7 @@
 import docker
 
 class helmdocker:
-    def __init__(self, remote_address = None, remote_is_TLS = None):
+    def __init__(remote_address = None, remote_is_TLS = None):
         try:
             helmdocker.client = docker.from_env()
         except:
