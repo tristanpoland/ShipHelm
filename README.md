@@ -105,6 +105,12 @@ helm.set_engine_manual(engine_select="docker", remoteAddress="YOUR ADDRESS HERE"
 running_containers = hd.get_running_containers()
 ``` 
 
+## Get a running container by ID
+
+```
+get_container_by_id(container_id)
+```
+
 ### Get Stats and Ports for a Container by ID
 
 ```
@@ -119,7 +125,6 @@ containers_by_name = hd.search_containers(name)
 ``` 
 
 ### Change the Ports of a Container
-
 ```
 hd.change_container_ports(container_id, ports)
 ``` 
