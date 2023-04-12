@@ -12,6 +12,7 @@
   - [Installation](#installation)
   - [Docker usage example](#docker-usage-example)
     - [Get a List of Running Containers](#get-a-list-of-running-containers)
+    - [Get a running container by ID](#get-a-running-container-by-id)
     - [Get Stats and Ports for a Container by ID](#get-stats-and-ports-for-a-container-by-id)
     - [Search for Containers by Name](#search-for-containers-by-name)
     - [Change the Ports of a Container](#change-the-ports-of-a-container)
