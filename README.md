@@ -6,6 +6,39 @@
 
 # Shiphelm
 
+## Table of Contents
+
+- [Shiphelm](#shiphelm)
+  - [Installation](#installation)
+  - [Docker usage example](#docker-usage-example)
+    - [Get a List of Running Containers](#get-a-list-of-running-containers)
+    - [Get Stats and Ports for a Container by ID](#get-stats-and-ports-for-a-container-by-id)
+    - [Search for Containers by Name](#search-for-containers-by-name)
+    - [Change the Ports of a Container](#change-the-ports-of-a-container)
+    - [Rename a Container](#rename-a-container)
+    - [Add and Remove Containers from Networks](#add-and-remove-containers-from-networks)
+    - [Create and Delete Networks](#create-and-delete-networks)
+    - [Run a New Container](#run-a-new-container)
+    - [Get and Set Environment Variables for a Container](#get-and-set-environment-variables-for-a-container)
+    - [Get and Set Volumes for a Container](#get-and-set-volumes-for-a-container)
+    - [Example code](#example-code)
+  - [Kubernetes (K8S) usage example](#kubernetes-k8s-usage-example)
+    - [Get a List of Running Containers](#get-a-list-of-running-containers-1)
+    - [Get Stats and Ports for a Container by ID](#get-stats-and-ports-for-a-container-by-id-1)
+    - [Search for Containers by Name](#search-for-containers-by-name-1)
+    - [Change the Ports of a Container](#change-the-ports-of-a-container-1)
+    - [Rename a Container](#rename-a-container-1)
+    - [Add and Remove Containers from Networks](#add-and-remove-containers-from-networks-1)
+    - [Create and Delete Networks](#create-and-delete-networks-1)
+    - [Run a New Container](#run-a-new-container-1)
+    - [Get and Set Environment Variables for a Container](#get-and-set-environment-variables-for-a-container-1)
+    - [Get and Set Volumes for a Container](#get-and-set-volumes-for-a-container-1)
+    - [Example code](#example-code-1)
+    - [Dynamic engine selection](#dynamic-engine-selection)
+    - [Remote engines via GUI](#remote-engines-via-gui)
+- [Contributing](#contributing)
+
+
 Shiphelm is a Python library for interacting with containers more easily. With Shiphelm, you can:
 
 - Get a list of all running containers
