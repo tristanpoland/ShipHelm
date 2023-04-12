@@ -36,6 +36,8 @@ GitHub Releases [https://github.com/Gameplex-Software/ShipHelm/releases]()
 
 This code will allow you to manage the local container engine
 
+
+### Standalone Docker installation
 ```
 from shiphelm.helm import helm
 
@@ -44,11 +46,23 @@ hd = helm.helm() # create an instance of helm
 helm.set_engine_manual("docker")
 ```
 
+### Remote standalone Docker installation
+
 This code will allow you to manage any compatible remote container engine
 ```
 from shiphelm.helm import helm
 
 hd = helm.reomte_connect('tcp://remote-docker-host:2375') # create an instance of helmdocker for romote management
+```
+
+### Remote Docker swarm installation
+
+```
+from shiphelm.helm import helm
+
+hd = helm.helm() # create an instance of helm
+
+helm.set_engine_manual(engine_select="docker", remoteAddress="YOUR ADDRESS HERE", remoteSecurity=<True|False>)
 ```
 
 ### Get a List of Running Containers
