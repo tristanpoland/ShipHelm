@@ -14,7 +14,7 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-import helmdocker, helmkube
+from . import  helmdocker, helmkube
 from kubernetes import client
 from typing import TYPE_CHECKING
 import docker
