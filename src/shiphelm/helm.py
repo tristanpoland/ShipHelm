@@ -26,7 +26,7 @@ kubeclient = client
 
 #Fix editor auto completes that are broken by the dynamic functions
 if TYPE_CHECKING:
-    from . import helmdocker, helmkube
+    from . import helmdocker, helmkube, helmswarm
     from helmdocker import helmdocker
     from helmdocker import *
     from helmkube import helmkube
@@ -47,6 +47,7 @@ class helm:
             print("Found Kubernetes engine on local system using Kubernetes container engine")
         except:
             pass
+
         if not helm.engine:
             try:
                 docker.from_env()
@@ -59,20 +60,27 @@ class helm:
 
         return helm.engine
     
-    def set_engine_manual(engine_select):
+    def set_engine_manual(engine_select, remoteAddress=None, remoteSecurity=""):
         helm.engine = None
         if engine_select == "docker":
             try:
                 docker.from_env()
                 helm.engine = "docker"
             except Exception as e:
-                print("Error connecting to Docker daemon this could be due to the current user permissions or an incompatible engine. The error is as follows:", e)
+                print("Error connecting to Docker daemon. This could be due to the current user permissions or an incompatible engine. The error is as follows:", e)
         elif engine_select == "kubernetes":
             try:
                 kubeclient.CoreV1Api()
                 helm.engine = "kubernetes"
             except Exception as e:
-                print("Error connecting to Kubernetes daemon this could be due to the current user permissions or an incompatible engine. The error is as follows:", e)
+                print("Error connecting to Kubernetes daemon. This could be due to the current user permissions or an incompatible engine. The error is as follows:", e)
+        elif engine_select == "swarm" or engine_select == "dockerswarm":
+            try:
+                helm.engine = "swarm"
+                helm.remoteAddress = remoteAddress
+                helm.remoteSecurity = remoteSecurity
+            except Exception as e:
+                print("Error connecting to the swarm. This could be due to the current user permissions, an invalid address, or an incompatible engine. The error is as follows:", e)
         else:
             print("Invalid engine", engine_select, ". Supported options are 'docker' or 'kubernetes'")
 
@@ -119,3 +127,6 @@ class helm:
         elif helm.engine == "kubernetes":
             helm.add_methods(helmkube.helmkube)
             return helmkube.helmkube()
+        elif helm.engine == "swarm":
+            helm.add_methods(helmswarm.helmswarm)
+            return helmswarm.helmswarm(remote_address=helm.remoteAddress, remote_is_TLS=helm.RemoteSecurity)

@@ -15,63 +15,64 @@
 # ----------------------------------------------------------------------------
 import docker
 
-class helmdocker:
-    def __init__(self, remote_address = None, remote_is_TLS = None):
-      try:
-         self.client = docker.from_env()
-      except:
-         client = docker.from_env(base_url=remote_address, tls=remote_is_TLS)
+
+
+class helmswarm:
+    def __init__(self, remote_address=None, remote_is_TLS=None):
+        try:
+            self.client = docker.from_env()
+        except:
+            self.client = docker.DockerClient(base_url=remote_address, tls=remote_is_TLS)
 
     @staticmethod
     def get_running_containers():
         client = docker.from_env()
-        return client.containers.list()
+        return client.services.list()
 
     @staticmethod
-    def get_container_stats(container_id):
+    def get_container_stats(service_id):
         client = docker.from_env()
-        container = client.containers.get(container_id)
-        stats = container.stats(stream=False)
+        service = client.services.get(service_id)
+        stats = service.stats()
         return stats
-
+    
     @staticmethod
-    def get_container_ports(container_id):
+    def get_containerports(service_id):
         client = docker.from_env()
-        container = client.containers.get(container_id)
-        ports = container.attrs['NetworkSettings']['Ports']
+        service = client.services.get(service_id)
+        ports = service.attrs['Endpoint']['Ports']
         return ports
 
     @staticmethod
     def search_containers(name):
         client = docker.from_env()
-        return client.containers.list(filters={"name": name})
-
+        return client.services.list(filters={"name": name})
+    
     @staticmethod
-    def change_container_ports(container_id, ports):
+    def change_container_ports(service_id, ports):
         client = docker.from_env()
-        container = client.containers.get(container_id)
-        container.reload()
-        container.ports.update(ports)
+        service = client.services.get(service_id)
+        service.update(EndpointSpec={'Ports': ports})
 
     @staticmethod
-    def rename_container(container_id, new_name):
+    def rename_container(service_id, new_name):
         client = docker.from_env()
-        container = client.containers.get(container_id)
-        container.rename(new_name)
+        service = client.services.get(service_id)
+        service.update(name=new_name)
 
     @staticmethod
-    def add_container_to_network(container_id, network_name):
-        client = docker.from_env()
-        network = client.networks.get(network_name)
-        container = client.containers.get(container_id)
-        network.connect(container)
-
-    @staticmethod
-    def remove_container_from_network(container_id, network_name):
+    def add_container_to_network(service_id, network_name):
         client = docker.from_env()
         network = client.networks.get(network_name)
-        container = client.containers.get(container_id)
-        network.disconnect(container)
+        service = client.services.get(service_id)
+        network.connect(service)
+
+    @staticmethod
+    def remove_container_from_network(service_id, network_name):
+        client = docker.from_env()
+        network = client.networks.get(network_name)
+        service = client.services.get(service_id)
+        network.disconnect(service)
 
     @staticmethod
     def create_network(network_name):
