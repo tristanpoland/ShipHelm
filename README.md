@@ -346,3 +346,20 @@ helm.remote_popup()
 # Contributing
 
 If you would like to contribute to SkiffUI, please feel free to open a pull request or issue on the [GitHub repository](https://github.com/Gameplex-Software/SkiffUI).
+
+<script src="https://giscus.app/client.js"
+        data-repo="Gameplex-Software/ShipHelm"
+        data-repo-id="R_kgDOJGgWLg"
+        data-category="General"
+        data-category-id="DIC_kwDOJGgWLs4CVv98"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="dark"
+        data-lang="en"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
