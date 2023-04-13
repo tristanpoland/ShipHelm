@@ -357,7 +357,7 @@ If you would like to contribute to SkiffUI, please feel free to open a pull requ
         data-reactions-enabled="1"
         data-emit-metadata="0"
         data-input-position="bottom"
-        data-theme="dark"
+        data-theme="light"
         data-lang="en"
         data-loading="lazy"
         crossorigin="anonymous"
