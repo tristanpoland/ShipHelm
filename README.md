@@ -76,7 +76,7 @@ This code will allow you to manage the local container engine
 ```
 from shiphelm.helm import helm
 
-hd = helm.helm() # create an instance of helm
+hd = helm() # create an instance of helm
 
 helm.set_engine_manual("docker")
 ```
