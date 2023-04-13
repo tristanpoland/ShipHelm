@@ -15,72 +15,68 @@
 # ----------------------------------------------------------------------------
 import docker
 
-class helmdocker:
-    def __init__(remote_address = None, remote_is_TLS = None):
+
+
+class helmswarm:
+    def __init__(self, remote_address=None, remote_is_TLS=None):
         try:
-            helmdocker.client = docker.from_env()
-        except:
-            helmdocker.client = docker.from_env(base_url=remote_address, tls=remote_is_TLS)
+            except:
+            helmswarm.client = docker.DockerClient(base_url=remote_address, tls=remote_is_TLS)
 
     @staticmethod
     def get_running_containers():
-        return helmdocker.client.containers.list()
+        return helmswarm.client.services.list()
 
     @staticmethod
-    def get_container_by_id(container_id):
-        return helmdocker.client.containers.get(container_id)
-
-    @staticmethod
-    def get_container_stats(container_id):
-        container = helmdocker.client.containers.get(container_id)
-        stats = container.stats(stream=False)
+    def get_container_stats(service_id):
+        service = helmswarm.client.services.get(service_id)
+        stats = service.stats()
         return stats
-
+    
     @staticmethod
-    def get_container_ports(container_id):
-        container = helmdocker.client.containers.get(container_id)
-        ports = container.attrs['NetworkSettings']['Ports']
+    def get_containerports(service_id):
+        service = helmswarm.client.services.get(service_id)
+        ports = service.attrs['Endpoint']['Ports']
         return ports
 
     @staticmethod
     def search_containers(name):
-        return helmdocker.containers.list(filters={"name": name})
+        return helmswarm.client.services.list(filters={"name": name})
+    
+    @staticmethod
+    def change_container_ports(service_id, ports):
+        service = helmswarm.client.services.get(service_id)
+        service.update(EndpointSpec={'Ports': ports})
 
     @staticmethod
-    def change_container_ports(container_id, ports):
-        container = helmdocker.client.containers.get(container_id)
-        container.reload()
-        container.ports.update(ports)
+    def rename_container(service_id, new_name):
+        service = helmswarm.client.services.get(service_id)
+        service.update(name=new_name)
 
     @staticmethod
-    def rename_container(container_id, new_name):
-        container = helmdocker.client.containers.get(container_id)
-        container.rename(new_name)
+    def add_container_to_network(service_id, network_name):
+        network = helmswarm.client.networks.get(network_name)
+        service = helmswarm.client.services.get(service_id)
+        network.connect(service)
 
     @staticmethod
-    def add_container_to_network(container_id, network_name):
-        network = helmdocker.client.networks.get(network_name)
-        container = helmdocker.client.containers.get(container_id)
-        network.connect(container)
-
-    @staticmethod
-    def remove_container_from_network(container_id, network_name):
-        network = helmdocker.client.networks.get(network_name)
-        container = helmdocker.client.containers.get(container_id)
-        network.disconnect(container)
+    def remove_container_from_network(service_id, network_name):
+        network = helmswarm.client.networks.get(network_name)
+        service = helmswarm.client.services.get(service_id)
+        network.disconnect(service)
 
     @staticmethod
     def create_network(network_name):
-        helmdocker.client.networks.create(network_name)
+        helmswarm.client.networks.create(network_name)
 
     @staticmethod
     def delete_network(network_name):
-        network = helmdocker.client.networks.get(network_name)
+        network = helmswarm.client.networks.get(network_name)
         network.remove()
 
     @staticmethod
     def run_container(image, command=None, detach=False, ports=None, environment=None, volumes=None):
-        container = helmdocker.client.containers.run(
+        container = helmswarm.client.containers.run(
             image=image,
             command=command,
             detach=detach,
@@ -92,24 +88,24 @@ class helmdocker:
 
     @staticmethod
     def get_container_environment(container_id):
-        container = helmdocker.client.containers.get(container_id)
+        container = helmswarm.client.containers.get(container_id)
         environment = container.attrs['Config']['Env']
         return environment
 
     @staticmethod
     def set_container_environment(container_id, environment):
-        container = helmdocker.client.containers.get(container_id)
+        container = helmswarm.client.containers.get(container_id)
         container.reload()
         container.update(env=environment)
 
     @staticmethod
     def get_container_volumes(container_id):
-        container = helmdocker.client.containers.get(container_id)
+        container = helmswarm.client.containers.get(container_id)
         volumes = container.attrs['HostConfig']['Binds']
         return volumes
 
     @staticmethod
     def set_container_volumes(container_id, volumes):
-        container = helmdocker.client.containers.get(container_id)
+        container = helmswarm.client.containers.get(container_id)
         container.reload()
         container.update(binds=volumes)
