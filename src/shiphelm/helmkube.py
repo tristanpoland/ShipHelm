@@ -20,14 +20,15 @@ class helmkube:
     def __init__(self, remote_address = None, remote_is_TLS = None):
         try:
             helmkube.kubeclient = client
-            self.api_client = helmkube.kubeclient.ApiClient()
+            config.load_kube_config()
+            helmkube.api_client = helmkube.kubeclient.ApiClient()
             namespace = "default"  # modify as needed
         except:
             pass
             #Finish: Remote Kubernetes connection
 
     def get_running_containers(self):
-        api_instance = helmkube.kubeclient.CoreV1Api(self.api_client)
+        api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         pods = api_instance.list_pod_for_all_namespaces(watch=False)
         containers = []
         for pod in pods.items:
@@ -39,7 +40,7 @@ class helmkube:
         return self.get_container_by_id(container_id)
 
     def get_container_stats(self, container_id):
-        api_instance = helmkube.kubeclient.CoreV1Api(self.api_client)
+        api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         namespace = "default"  # modify as needed
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
@@ -51,7 +52,7 @@ class helmkube:
         return container_stats
 
     def get_container_ports(self, container_id):
-        api_instance = helmkube.kubeclient.CoreV1Api(self.api_client)
+        api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         namespace = "default"  # modify as needed
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
@@ -63,7 +64,7 @@ class helmkube:
         return ports
 
     def search_containers(self, name):
-        api_instance = helmkube.kubeclient.CoreV1Api(self.api_client)
+        api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         namespace = "default"  # modify as needed
         label_selector = f"name={name}"
         pods = api_instance.list_namespaced_pod(
@@ -77,7 +78,7 @@ class helmkube:
         return containers
 
     def change_container_ports(self, container_id, ports):
-        api_instance = helmkube.kubeclient.CoreV1Api(self.api_client)
+        api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         namespace = "default"  # modify as needed
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
@@ -93,7 +94,7 @@ class helmkube:
         )
 
     def rename_container(self, container_id, new_name):
-        api_instance = helmkube.kubeclient.CoreV1Api(self.api_client)
+        api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         namespace = "default"  # modify as needed
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
