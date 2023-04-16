@@ -16,70 +16,58 @@
 import docker
 
 class helmdocker:
-    def __init__(remote_address = None, remote_is_TLS = None):
+    def __init__(remote_address=None, remote_is_TLS=None):
         try:
             helmdocker.client = docker.from_env()
         except:
             helmdocker.client = docker.from_env(base_url=remote_address, tls=remote_is_TLS)
 
-    @staticmethod
-    def get_running_containers():
+    def get_running_containers(self):
         return helmdocker.client.containers.list()
 
-    @staticmethod
-    def get_container_by_id(container_id):
+    def get_container_by_id(self, container_id):
         return helmdocker.client.containers.get(container_id)
 
-    @staticmethod
-    def get_container_stats(container_id):
+    def get_container_stats(self, container_id):
         container = helmdocker.client.containers.get(container_id)
         stats = container.stats(stream=False)
         return stats
 
-    @staticmethod
-    def get_container_ports(container_id):
+    def get_container_ports(self, container_id):
         container = helmdocker.client.containers.get(container_id)
         ports = container.attrs['NetworkSettings']['Ports']
         return ports
 
-    @staticmethod
-    def search_containers(name):
-        return helmdocker.containers.list(filters={"name": name})
+    def search_containers(self, name):
+        return helmdocker.client.containers.list(filters={"name": name})
 
-    @staticmethod
-    def change_container_ports(container_id, ports):
+    def change_container_ports(self, container_id, ports):
         container = helmdocker.client.containers.get(container_id)
         container.reload()
         container.ports.update(ports)
 
-    @staticmethod
-    def rename_container(container_id, new_name):
+    def rename_container(self, container_id, new_name):
         container = helmdocker.client.containers.get(container_id)
         container.rename(new_name)
 
-    @staticmethod
-    def add_container_to_network(container_id, network_name):
+    def add_container_to_network(self, container_id, network_name):
         network = helmdocker.client.networks.get(network_name)
         container = helmdocker.client.containers.get(container_id)
         network.connect(container)
 
-    @staticmethod
-    def remove_container_from_network(container_id, network_name):
+    def remove_container_from_network(self, container_id, network_name):
         network = helmdocker.client.networks.get(network_name)
         container = helmdocker.client.containers.get(container_id)
         network.disconnect(container)
 
-    @staticmethod
-    def create_network(network_name):
+    def create_network(self, network_name):
         helmdocker.client.networks.create(network_name)
 
-    @staticmethod
-    def delete_network(network_name):
+    def delete_network(self, network_name):
         network = helmdocker.client.networks.get(network_name)
         network.remove()
 
-    @staticmethod
-    def run_container(image, command=None, detach=False, ports=None, environment=None, volumes=None):
+    def run_container(self, image, command=None, detach=False, ports=None, environment=None, volumes=None):
         container = helmdocker.client.containers.run(
             image=image,
             command=command,
@@ -90,26 +78,22 @@ class helmdocker:
         )
         return container
 
-    @staticmethod
-    def get_container_environment(container_id):
+    def get_container_environment(self, container_id):
         container = helmdocker.client.containers.get(container_id)
         environment = container.attrs['Config']['Env']
         return environment
 
-    @staticmethod
-    def set_container_environment(container_id, environment):
+    def set_container_environment(self, container_id, environment):
         container = helmdocker.client.containers.get(container_id)
         container.reload()
         container.update(env=environment)
 
-    @staticmethod
-    def get_container_volumes(container_id):
+    def get_container_volumes(self, container_id):
         container = helmdocker.client.containers.get(container_id)
         volumes = container.attrs['HostConfig']['Binds']
         return volumes
 
-    @staticmethod
-    def set_container_volumes(container_id, volumes):
+    def set_container_volumes(self, container_id, volumes):
         container = helmdocker.client.containers.get(container_id)
         container.reload()
         container.update(binds=volumes)
