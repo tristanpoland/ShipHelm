@@ -14,20 +14,19 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-from kubernetes import client, config
+from kubernetes import client, config, json
 
 class helmkube:
-    def __init__(self, remote_address = None, remote_is_TLS = None):
+    def __init__(self, remote_address = None, remote_is_TLS = None, namespace="default"):
         try:
             helmkube.kubeclient = client
             config.load_kube_config()
             helmkube.api_client = helmkube.kubeclient.ApiClient()
-            namespace = "default"  # modify as needed
         except:
             pass
             #Finish: Remote Kubernetes connection
 
-    def get_running_containers(self):
+    def get_running_containers(self, namespace="default"):
         api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
         pods = api_instance.list_pod_for_all_namespaces(watch=False)
         containers = []
@@ -36,12 +35,12 @@ class helmkube:
                 containers.append(container)
         return containers
 
-    def get_container_by_id(self, container_id):
+    def get_container_by_id(self, container_id, namespace="default"):
         return self.get_container_by_id(container_id)
 
-    def get_container_stats(self, container_id):
+    def get_container_stats(self, container_id, namespace="default"):
         api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
-        namespace = "default"  # modify as needed
+        
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
         container_stats = api_instance.read_namespaced_pod_container_status(
@@ -51,9 +50,9 @@ class helmkube:
         )
         return container_stats
 
-    def get_container_ports(self, container_id):
+    def get_container_ports(self, container_id, namespace="default"):
         api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
-        namespace = "default"  # modify as needed
+        
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
         container = api_instance.read_namespaced_pod(
@@ -63,9 +62,9 @@ class helmkube:
         ports = container.spec.containers[0].ports
         return ports
 
-    def search_containers(self, name):
+    def search_containers(self, name, namespace="default"):
         api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
-        namespace = "default"  # modify as needed
+        
         label_selector = f"name={name}"
         pods = api_instance.list_namespaced_pod(
             namespace=namespace,
@@ -77,9 +76,9 @@ class helmkube:
                 containers.append(container)
         return containers
 
-    def change_container_ports(self, container_id, ports):
+    def change_container_ports(self, container_id, ports, namespace="default"):
         api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
-        namespace = "default"  # modify as needed
+        
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
         container = api_instance.read_namespaced_pod(
@@ -93,9 +92,8 @@ class helmkube:
             body=container
         )
 
-    def rename_container(self, container_id, new_name):
+    def rename_container(self, container_id, new_name, namespace="default"):
         api_instance = helmkube.kubeclient.CoreV1Api(helmkube.api_client)
-        namespace = "default"  # modify as needed
         pod_name = container_id  # use container ID as pod name
         container_name = container_id  # use container ID as container name
         container = api_instance.read_namespaced_pod(
@@ -108,20 +106,43 @@ class helmkube:
             namespace=namespace,
             body=container
         )
+    
+    def get_run_command(container_id, namespace="default"):
+        config.load_kube_config()  # Loads kubeconfig file from default location or from environment variables
+        try:
+            api_instance = client.CoreV1Api()
+            pod = api_instance.read_namespaced_pod(id=container_id, namespace=namespace)
+
+            # Convert container command to string
+            container = pod.spec.containers[0]
+            command = " ".join(container.command)
+
+            # Convert container arguments to string
+            args = " ".join(container.args)
+
+            run_command = f"{command} {args}"
+            return run_command
+        except client.exceptions.ApiException as e:
+            error_message = json.loads(e.body)["message"]
+            return f"Error: {error_message}"
+        except IndexError:
+            return f"Pod {container_name} does not have any containers"
+        except Exception as e:
+            return f"Error: {str(e)}"
 
     @staticmethod
-    def add_container_to_network(self, container_id, network_name):
+    def add_container_to_network(self, container_id, network_name, namespace="default"):
         # Kubernetes has a different networking model, so this method is not applicable
         pass
 
     @staticmethod
-    def remove_container_from_network(self, container_id, network_name):
+    def remove_container_from_network(self, container_id, network_name, namespace="default"):
         # Kubernetes has a different networking model, so this method is not applicable
         pass
 
     @staticmethod
-    def create_service(self, service_name, app_name, container_port):
-        namespace = "default"  # modify as needed
+    def create_service(self, service_name, app_name, container_port, namespace="default"):
+        
         v1 = helmkube.kubeclient.CoreV1Api()
         service_manifest = {
             "apiVersion": "v1",
@@ -146,8 +167,8 @@ class helmkube:
         v1.create_namespaced_service(namespace, service_manifest)
 
     @staticmethod
-    def set_container_volumes(self, container_name, volumes):
-        namespace = "default"  # modify as needed
+    def set_container_volumes(self, container_name, volumes, namespace="default"):
+        
         v1 = helmkube.kubeclient.CoreV1Api()
         container = v1.read_namespaced_pod(container_name, namespace)
         container.spec.volumes = volumes

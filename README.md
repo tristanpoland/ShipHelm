@@ -163,6 +163,16 @@ container = hd.run_container(
 )
 ``` 
 
+### Generate run command
+ShipHelm is capable of retrieving your container's inspect data and re-creating the original command that was used to run your pod, allowing you to re-create it anywhere
+
+```
+container_name = "your_container_name"
+namespace = "your_namespace"  # Default is "default"
+run_command = get_kubernetes_run_command(pod_name, namespace)
+print(f"Run command for pod {pod_name} in namespace {namespace}: {run_command}")
+```
+
 ### Get and Set Environment Variables for a Container
 
 ```
@@ -218,38 +228,38 @@ from shiphelm.helm import helm
 hd = helm.reomte_connect('tcp://remote--host:2375') # create an instance of helm for romote management
 ```
 
-### Get a List of Running Containers
+### Get a List of Running pods
 
 ```
 running_containers = hd.get_running_containers()
 ``` 
 
-### Get Stats and Ports for a Container by ID
+### Get Stats and Ports for a pod by ID
 
 ```
 container_stats = hd.get_container_stats(container_id)
 container_ports = hd.get_container_ports(container_id)
 ```
 
-### Search for Containers by Name
+### Search for pods by Name
 
 ```
 containers_by_name = hd.search_containers(name)
 ``` 
 
-### Change the Ports of a Container
+### Change the Ports of a pod
 
 ```
 hd.change_container_ports(container_id, ports)
 ``` 
 
-### Rename a Container
+### Rename a pod
 
 ```
 hd.rename_container(container_id, new_name)
 ``` 
 
-### Add and Remove Containers from Networks
+### Add and Remove pods from Networks
 
 ```
 hd.add_container_to_network(container_id, network_name)
@@ -263,7 +273,7 @@ hd.create_network(network_name)
 hd.delete_network(network_name)
 ``` 
 
-### Run a New Container
+### Run a New pod
 
 ```
 container = hd.run_container(
@@ -276,21 +286,31 @@ container = hd.run_container(
 )
 ``` 
 
-### Get and Set Environment Variables for a Container
+### Generate run command
+ShipHelm is capable of retrieving your pod's inspect data and re-creating the original command that was used to run your pod, allowing you to re-create it anywhere
+
+```
+pod_name = "your_pod_name"
+namespace = "your_namespace"  # Default is "default"
+run_command = get_kubernetes_run_command(pod_name, namespace)
+print(f"Run command for pod {pod_name} in namespace {namespace}: {run_command}")
+```
+
+### Get and Set Environment Variables for a pod
 
 ```
 container_environment = hd.get_container_environment(container_id)
 hd.set_container_environment(container_id, environment)
 ``` 
 
-### Get and Set Volumes for a Container
+### Get and Set Volumes for a pod
 
 ```
 container_volumes = hd.get_container_volumes(container_id)
 hd.set_container_volumes(container_id, volumes)
 ```
 ### Example code
-This example runs 4 instances of the  "Getting Started" container
+This example runs 4 instances of the  "Getting Started" pod
 
 ```
 from shiphelm.helm import helm
@@ -311,7 +331,7 @@ print("Your server is up and ready for connection!")
 ## Dynamic engine selection
 You may have noticed that the syntax for controling both Docker and Kubernetes are identical, the way the code you write for ShipHelm is run depends on the engine you selected last.
 
-In the last example we used the follwing code to initilise ShipHelm, create an alias, and select a container engine:
+In the last example we used the follwing code to initilise ShipHelm, create an alias, and select a pod engine:
 
 ```
 from shiphelm.helm import helm

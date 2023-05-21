@@ -97,3 +97,14 @@ class helmdocker:
         container = helmdocker.client.containers.get(container_id)
         container.reload()
         container.update(binds=volumes)
+
+    def get_run_command(self, container_id):
+        client = docker.from_env()
+        try:
+            container = client.containers.get(container_id)
+            command = ' '.join(container.attrs['Path']) + ' ' + ' '.join(container.attrs['Args'])
+            return command
+        except docker.errors.NotFound:
+            return f"Container {container_id} not found"
+        except docker.errors.APIError as e:
+            return f"Error: {e}"
