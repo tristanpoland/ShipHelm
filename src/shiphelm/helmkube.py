@@ -14,7 +14,8 @@
 # limitations under the License.
 # ----------------------------------------------------------------------------
 
-from kubernetes import client, config, json
+from kubernetes import client, config
+import json
 
 class helmkube:
     def __init__(self, remote_address = None, remote_is_TLS = None, namespace="default"):
